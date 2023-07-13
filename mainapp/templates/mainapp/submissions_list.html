@@ -1,0 +1,15 @@
+{% extends './base.html' %}
+{% block content %}
+    <h1>投稿一覧</h1>
+    <table class='table table-striped table-hover'>
+        {% for submissions in object_list %}
+        <tr>
+            <td><a href='{% url "mainapp:detail" submissions.pk %}'><p>ユーザー名：{{ submissions.username }}</p></a></td>
+            <td><a href='{% url "mainapp:detail" submissions.pk %}'><img src="{{ submissions.image.url }}" alt="投稿画像" width="200"></a></td>
+        </tr>
+
+        {% endfor %}
+    </table>
+
+
+{% endblock %}

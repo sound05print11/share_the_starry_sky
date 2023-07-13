@@ -1,0 +1,36 @@
+{% extends './base.html' %}
+{% block content %}
+
+<h1>{{ submissions.username }}</h1>
+<div>
+    <p>ユーザー名：{{ submissions.username }}</p>
+    <img src="{{ submissions.image.url }}" alt="投稿画像" width="200">
+    <p>コメント：{{ submissions.comment }}</p>
+
+    {% for exif in submissions.exif_data.all %}
+        <p>カメラメーカーとモデル：{{ exif.camera_manufacturer_and_model }}</p>
+        <p>画像の撮影日：{{ exif.image_capture_date }}</p>
+        <p>シャッタースピード：{{ exif.shutter_speed }}</p>
+        <p>露出時間：{{ exif.exposure_time }}</p>
+        <p>絞り値：{{ exif.aperture_value }}</p>
+        <p>ISO感度：{{ exif.iso_sensitivity }}</p>
+        <p>焦点距離：{{ exif.focal_length }}</p>
+        <p>測光モード：{{ exif.metering_mode }}</p>
+        <p>フラッシュ使用状況：{{ exif.flash_usage }}</p>
+        <p>画像解像度：{{ exif.image_resolution }}</p>
+        <p>画像方向：{{ exif.image_orientation }}</p>
+        <p>レンズタイプ：{{ exif.lens_type }}</p>
+        <p>ホワイトバランス設定：{{ exif.white_balance_setting }}</p>
+        <p>デジタルズーム比率：{{ exif.digital_zoom_ratio }}</p>
+        <p>35mm換算焦点距離：{{ exif.focal_length_in_35mm_film }}</p>
+        <p>シーンキャプチャタイプ：{{ exif.scene_capture_type }}</p>
+        <p>GPS情報（緯度）：{{ exif.gps_info_latitude }}</p>
+        <p>GPS情報（経度）：{{ exif.gps_info_longitude }}</p>
+        <p>GPS情報（高度）：{{ exif.gps_info_altitude }}</p>
+    {% endfor %}
+</div>
+<div>
+    <a href='{% url "mainapp:index" %}'>一覧</a>
+</div>
+
+{% endblock %}
