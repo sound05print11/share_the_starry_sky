@@ -10,50 +10,44 @@ class Submissions(models.Model):
     def get_absolute_url(self):
         return reverse('mainapp:detail', kwargs={'pk': self.pk})
 
-
-
 # class Exif(models.Model):
-#     camera_manufacturer_and_model = models.CharField(max_length=200, blank=True)
-#     image_capture_date = models.DateTimeField(null=True, blank=True)
-#     shutter_speed = models.FloatField(null=True, blank=True)
-#     exposure_time = models.FloatField(null=True, blank=True)
-#     aperture_value = models.FloatField(null=True, blank=True)
-#     iso_sensitivity = models.IntegerField(null=True, blank=True)
-#     focal_length = models.FloatField(null=True, blank=True)
-#     metering_mode = models.CharField(max_length=200, blank=True)
-#     flash_usage = models.BooleanField(null=True, blank=True)
-#     image_resolution = models.CharField(max_length=200, blank=True)
-#     image_orientation = models.CharField(max_length=200, blank=True)
-#     lens_type = models.CharField(max_length=200, blank=True)
-#     white_balance_setting = models.CharField(max_length=200, blank=True)
-#     digital_zoom_ratio = models.FloatField(null=True, blank=True)
-#     focal_length_in_35mm_film = models.IntegerField(null=True, blank=True)
-#     scene_capture_type = models.CharField(max_length=200, blank=True)
-#     gps_info_latitude = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
-#     gps_info_longitude = models.DecimalField(max_digits=9, decimal_places=3, null=True, blank=True)
-#     gps_info_altitude = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
+#     exif_data = models.TextField(blank=True)  # new field for all exif data
 #     submission = models.ForeignKey(Submissions, on_delete=models.CASCADE, related_name="exif_data")
 
+from django.db import models
+
 class Exif(models.Model):
-    make = models.CharField(max_length=200, blank=True)
-    model = models.CharField(max_length=200, blank=True)
-    datetimeoriginal = models.CharField(max_length=200, blank=True)
-    exposuretime = models.CharField(max_length=200, blank=True)
-    fnumber = models.CharField(max_length=200, blank=True)
-    isospeedratings = models.CharField(max_length=200, blank=True)
-    focallength = models.CharField(max_length=200, blank=True)
-    meteringmode = models.CharField(max_length=200, blank=True)
-    flash = models.CharField(max_length=200, blank=True)
-    xresolution = models.CharField(max_length=200, blank=True)
-    yresolution = models.CharField(max_length=200, blank=True)
-    orientation = models.CharField(max_length=200, blank=True)
-    lensmodel = models.CharField(max_length=200, blank=True)
-    lensspecification = models.CharField(max_length=200, blank=True)
-    whitebalance = models.CharField(max_length=200, blank=True)
-    digitalzoomratio = models.CharField(max_length=200, blank=True)
-    focallengthin35mmfilm = models.CharField(max_length=200, blank=True)
-    scenecapturetype = models.CharField(max_length=200, blank=True)
-    gpslatitude = models.DecimalField(max_digits=8, decimal_places=3, null=True, blank=True)
-    gpslongitude = models.DecimalField(max_digits=9, decimal_places=3, null=True, blank=True)
-    gpsaltitude = models.DecimalField(max_digits=10, decimal_places=3, null=True, blank=True)
-    submission = models.ForeignKey(Submissions, on_delete=models.CASCADE, related_name="exif_data")
+    submission = models.ForeignKey(Submissions, on_delete=models.CASCADE, related_name="exif_data", null=True)
+    # 撮影に関する情報の主なタグ名
+    aperture_value = models.FloatField(blank=True, null=True)
+    brightness_value = models.FloatField(blank=True, null=True)
+    date_time_original = models.DateTimeField(blank=True, null=True)
+    exposure_bias_value = models.FloatField(blank=True, null=True)
+    exposure_program = models.IntegerField(blank=True, null=True)
+    exposure_time = models.FloatField(blank=True, null=True)
+    f_number = models.FloatField(blank=True, null=True)
+    iso = models.IntegerField(blank=True, null=True)
+    max_aperture_value = models.FloatField(blank=True, null=True)
+    metering_mode = models.IntegerField(blank=True, null=True)
+    shutter_speed_value = models.FloatField(blank=True, null=True)
+
+    # GPS情報の主なタグ名
+    gps_altitude = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+    gps_altitude_ref = models.IntegerField(blank=True, null=True)
+    gps_latitude = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+    gps_latitude_ref = models.CharField(max_length=1, blank=True, null=True)
+    gps_longitude = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+    gps_longitude_ref = models.CharField(max_length=1, blank=True, null=True)
+
+    # 機材構成に関する主なタグ名
+    make = models.CharField(max_length=255, blank=True, null=True)
+    model = models.CharField(max_length=255, blank=True, null=True)
+    lens_make = models.CharField(max_length=255, blank=True, null=True)
+    lens_model = models.CharField(max_length=255, blank=True, null=True)
+
+    # 星空を撮影する際に重要なタグ名
+    exposure_time_star = models.FloatField(blank=True, null=True)
+    f_number_star = models.FloatField(blank=True, null=True)
+    iso_star = models.IntegerField(blank=True, null=True)
+    focal_length_star = models.FloatField(blank=True, null=True)
+

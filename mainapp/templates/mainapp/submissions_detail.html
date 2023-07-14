@@ -7,27 +7,30 @@
     <img src="{{ submissions.image.url }}" alt="投稿画像" width="200">
     <p>コメント：{{ submissions.comment }}</p>
 
-    {% for exif in submissions.exif_data.all %}
-        <p>カメラメーカーとモデル：{{ exif.make }} {{ exif.model }}</p>
-        <p>画像の撮影日：{{ exif.datetimeoriginal }}</p>
-        <p>シャッタースピード：{{ exif.exposuretime }}</p>
-        <p>絞り値：{{ exif.fnumber }}</p>
-        <p>ISO感度：{{ exif.isospeedratings }}</p>
-        <p>焦点距離：{{ exif.focallength }}</p>
-        <p>測光モード：{{ exif.meteringmode }}</p>
-        <p>フラッシュ使用状況：{{ exif.flash }}</p>
-        <p>画像解像度：{{ exif.xresolution }} x {{ exif.yresolution }}</p>
-        <p>画像方向：{{ exif.orientation }}</p>
-        <p>レンズモデル：{{ exif.lensmodel }}</p>
-        <p>レンズスペック：{{ exif.lensspecification }}</p>
-        <p>ホワイトバランス設定：{{ exif.whitebalance }}</p>
-        <p>デジタルズーム比率：{{ exif.digitalzoomratio }}</p>
-        <p>35mm換算焦点距離：{{ exif.focallengthin35mmfilm }}</p>
-        <p>シーンキャプチャタイプ：{{ exif.scenecapturetype }}</p>
-        <p>GPS情報（緯度）：{{ exif.gpslatitude }}</p>
-        <p>GPS情報（経度）：{{ exif.gpslongitude }}</p>
-        <p>GPS情報（高度）：{{ exif.gpsaltitude }}</p>
-    {% endfor %}
+    {% if submissions.exif %}
+        <ul>
+            <li>Camera Manufacturer: {{ submissions.exif.camera_manufacturer }}</li>
+            <li>Camera Model: {{ submissions.exif.camera_model }}</li>
+            <li>DateTime: {{ submissions.exif.datetime }}</li>
+            <li>Exposure Time: {{ submissions.exif.exposure_time }}</li>
+            <li>Aperture Value: {{ submissions.exif.aperture_value }}</li>
+            <li>ISO Speed: {{ submissions.exif.iso_speed }}</li>
+            <li>Focal Length: {{ submissions.exif.focal_length }}</li>
+            <li>Metering Mode: {{ submissions.exif.metering_mode }}</li>
+            <li>Flash: {{ submissions.exif.flash }}</li>
+            <li>Resolution: {{ submissions.exif.resolution }}</li>
+            <li>Orientation: {{ submissions.exif.orientation }}</li>
+            <li>White Balance: {{ submissions.exif.white_balance }}</li>
+            <li>Digital Zoom Ratio: {{ submissions.exif.digital_zoom_ratio }}</li>
+            <li>Focal Length in 35mm Film: {{ submissions.exif.focal_length_in_35mm }}</li>
+            <li>Scene Capture Type: {{ submissions.exif.scene_capture_type }}</li>
+            <li>GPS Latitude: {{ submissions.exif.gps_latitude }}</li>
+            <li>GPS Longitude: {{ submissions.exif.gps_longitude }}</li>
+            <li>GPS Altitude: {{ submissions.exif.gps_altitude }}</li>
+        </ul>
+    {% else %}
+        <p>No Exif data available for this image.</p>
+    {% endif %}
 </div>
 <div>
     <a href='{% url "mainapp:index" %}'>一覧</a> |
