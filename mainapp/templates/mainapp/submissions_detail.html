@@ -7,27 +7,26 @@
     <img src="{{ submissions.image.url }}" alt="投稿画像" width="200">
     <p>コメント：{{ submissions.comment }}</p>
 
-    {% if submissions.exif %}
+    {% if submissions.exif_data %}
         <ul>
-            <li>Camera Manufacturer: {{ submissions.exif.camera_manufacturer }}</li>
-            <li>Camera Model: {{ submissions.exif.camera_model }}</li>
-            <li>DateTime: {{ submissions.exif.datetime }}</li>
-            <li>Exposure Time: {{ submissions.exif.exposure_time }}</li>
-            <li>Aperture Value: {{ submissions.exif.aperture_value }}</li>
-            <li>ISO Speed: {{ submissions.exif.iso_speed }}</li>
-            <li>Focal Length: {{ submissions.exif.focal_length }}</li>
-            <li>Metering Mode: {{ submissions.exif.metering_mode }}</li>
-            <li>Flash: {{ submissions.exif.flash }}</li>
-            <li>Resolution: {{ submissions.exif.resolution }}</li>
-            <li>Orientation: {{ submissions.exif.orientation }}</li>
-            <li>White Balance: {{ submissions.exif.white_balance }}</li>
-            <li>Digital Zoom Ratio: {{ submissions.exif.digital_zoom_ratio }}</li>
-            <li>Focal Length in 35mm Film: {{ submissions.exif.focal_length_in_35mm }}</li>
-            <li>Scene Capture Type: {{ submissions.exif.scene_capture_type }}</li>
-            <li>GPS Latitude: {{ submissions.exif.gps_latitude }}</li>
-            <li>GPS Longitude: {{ submissions.exif.gps_longitude }}</li>
-            <li>GPS Altitude: {{ submissions.exif.gps_altitude }}</li>
+            <li>Camera Make: {{ submissions.exif_data.make }}</li>
+            <li>Camera Model: {{ submissions.exif_data.model }}</li>
+            <li>Aperture Value: {{ submissions.exif_data.aperture_value }}</li>
+            <li>Brightness Value: {{ submissions.exif_data.brightness_value }}</li>
+            <li>Date Time Original: {{ submissions.exif_data.date_time_original }}</li>
+            <li>Exposure Bias Value: {{ submissions.exif_data.exposure_bias_value }}</li>
+            <li>Exposure Program: {{ submissions.exif_data.exposure_program }}</li>
+            <li>Exposure Time: {{ submissions.exif_data.exposure_time }}</li>
+            <li>F Number: {{ submissions.exif_data.f_number }}</li>
+            <li>ISO: {{ submissions.exif_data.iso }}</li>
+            <li>Max Aperture Value: {{ submissions.exif_data.max_aperture_value }}</li>
+            <li>Metering Mode: {{ submissions.exif_data.metering_mode }}</li>
+            <li>Shutter Speed Value: {{ submissions.exif_data.shutter_speed_value }}</li>
+            <li>GPS Altitude: {{ submissions.exif_data.gps_altitude }}</li>
+            <li>GPS Latitude: {{ submissions.exif_data.gps_latitude }}</li>
+            <li>GPS Longitude: {{ submissions.exif_data.gps_longitude }}</li>
         </ul>
+        <div id="map" style="height: 400px; width: 100%;"></div>
     {% else %}
         <p>No Exif data available for this image.</p>
     {% endif %}
@@ -37,5 +36,27 @@
     <a href='{% url "mainapp:update" submissions.pk %}'>編集</a> |
     <a href='{% url "mainapp:delete" submissions.pk %}'>削除</a>
 </div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg3BavEGypj-SHgY-vw80rCbyTeNXbKuI"></script>
+<script>
+    function initMap() {
+        var latitude = {{ submissions.exif_data.gps_latitude }};
+        var longitude = {{ submissions.exif_data.gps_longitude }};
+        var location = {lat: latitude, lng: longitude};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 8,
+            center: location
+        });
+
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map
+        });
+    }
+
+    // Initialize the map
+    google.maps.event.addDomListener(window, 'load', initMap);
+</script>
 
 {% endblock %}

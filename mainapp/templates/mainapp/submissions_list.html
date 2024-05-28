@@ -7,13 +7,28 @@
             <td><a href='{% url "mainapp:detail" submissions.pk %}'><p>ユーザー名：{{ submissions.username }}</p></a></td>
             <td><a href='{% url "mainapp:detail" submissions.pk %}'><img src="{{ submissions.image.url }}" alt="投稿画像" width="200"></a></td>
         </tr>
-
         {% endfor %}
     </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; 最初</a>
+                <a href="?page={{ page_obj.previous_page_number }}">前</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">次</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">最後 &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 
     <div>
         <a href='{% url "mainapp:create" %}'>新しい投稿</a>
     </div>
-
-
 {% endblock %}

@@ -108,6 +108,7 @@ def get_exif_data(image):
 
 class IndexView(generic.ListView):
     model = Submissions
+    paginate_by = 5
 
 class DetailView(generic.DetailView):
     model = Submissions
